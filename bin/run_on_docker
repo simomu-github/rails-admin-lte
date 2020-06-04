@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eu
+
+EXECUTE_DIR=$(cd $(dirname $0) && pwd)
+
+docker-compose -f ${EXECUTE_DIR}/../docker-compose.yml build
+docker-compose -f ${EXECUTE_DIR}/../docker-compose.yml up -d database
+
+sleep 10
+
+docker-compose -f ${EXECUTE_DIR}/../docker-compose.yml run --rm rails bin/rails db:create db:migrate
+docker-compose -f ${EXECUTE_DIR}/../docker-compose.yml up -d rails

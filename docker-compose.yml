@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  database:
+    image: mysql:5.6
+    container_name: rails-admin-lte-sample-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '3306:3306'
+    volumes:
+      - database:/var/lib/mysql
+
+  rails:
+    build:
+      context: .
+      args:
+        RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    image: rails-admin-lte-sample:latest
+    container_name: rails-admin-lte-sample-app
+    environment:
+      RAILS_LOG_TO_STDOUT: 'true'
+      RAILS_ENV: production
+      DATABASE_URL: mysql2://database:3306/
+      DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
+      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-1}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+
+volumes:
+  database:
+    driver: local
