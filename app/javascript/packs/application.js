@@ -11,6 +11,7 @@ require("channels")
 require("jquery/dist/jquery.min")
 require("bootstrap/dist/js/bootstrap.min")
 require("admin-lte/dist/js/adminlte.min")
+require('admin-lte/plugins/chart.js/Chart.min')
 
 require('bootstrap/dist/css/bootstrap.min')
 require('admin-lte/dist/css/adminlte.min');
